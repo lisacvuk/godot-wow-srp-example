@@ -1,0 +1,129 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Control.gd" type="Script" id=1]
+
+[node name="Main Menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CenterContainer" type="CenterContainer" parent="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ErrorPopup" type="AcceptDialog" parent="Panel/CenterContainer"]
+margin_left = 473.0
+margin_top = 271.0
+margin_right = 551.0
+margin_bottom = 329.0
+window_title = "Error"
+
+[node name="MenuConnect" type="VBoxContainer" parent="Panel/CenterContainer"]
+margin_left = 448.0
+margin_top = 262.0
+margin_right = 576.0
+margin_bottom = 338.0
+rect_min_size = Vector2( 128, 0 )
+size_flags_horizontal = 2
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Username" type="LineEdit" parent="Panel/CenterContainer/MenuConnect"]
+margin_right = 128.0
+margin_bottom = 24.0
+placeholder_text = "Username"
+
+[node name="Password" type="LineEdit" parent="Panel/CenterContainer/MenuConnect"]
+margin_top = 28.0
+margin_right = 128.0
+margin_bottom = 52.0
+secret = true
+placeholder_text = "Password"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Connect" type="Button" parent="Panel/CenterContainer/MenuConnect"]
+margin_top = 56.0
+margin_right = 128.0
+margin_bottom = 76.0
+text = "Connect"
+
+[node name="LoggingIn" type="VBoxContainer" parent="Panel/CenterContainer"]
+visible = false
+margin_left = 485.0
+margin_top = 281.0
+margin_right = 539.0
+margin_bottom = 319.0
+
+[node name="Status" type="Label" parent="Panel/CenterContainer/LoggingIn"]
+margin_right = 54.0
+margin_bottom = 14.0
+text = "Status"
+
+[node name="Cancel" type="Button" parent="Panel/CenterContainer/LoggingIn"]
+margin_top = 18.0
+margin_right = 54.0
+margin_bottom = 38.0
+size_flags_horizontal = 4
+text = "Cancel"
+
+[node name="MenuRealm" type="VBoxContainer" parent="Panel/CenterContainer"]
+visible = false
+margin_left = 384.0
+margin_top = 279.0
+margin_right = 640.0
+margin_bottom = 321.0
+rect_min_size = Vector2( 256, 0 )
+
+[node name="Label" type="Label" parent="Panel/CenterContainer/MenuRealm"]
+margin_right = 256.0
+margin_bottom = 14.0
+text = "Select a realm:"
+
+[node name="Realms" type="ItemList" parent="Panel/CenterContainer/MenuRealm"]
+margin_top = 18.0
+margin_right = 256.0
+margin_bottom = 27.0
+allow_reselect = true
+auto_height = true
+same_column_width = true
+
+[node name="Buttons" type="HBoxContainer" parent="Panel/CenterContainer/MenuRealm"]
+margin_top = 31.0
+margin_right = 256.0
+margin_bottom = 51.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cancel" type="Button" parent="Panel/CenterContainer/MenuRealm/Buttons"]
+margin_right = 54.0
+margin_bottom = 20.0
+text = "Cancel"
+
+[node name="Login" type="Button" parent="Panel/CenterContainer/MenuRealm/Buttons"]
+margin_left = 58.0
+margin_right = 256.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "Login"
+[connection signal="pressed" from="Panel/CenterContainer/MenuConnect/Connect" to="." method="_on_Connect_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/LoggingIn/Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/MenuRealm/Buttons/Cancel" to="." method="_on_Cancel_pressed"]
+[connection signal="pressed" from="Panel/CenterContainer/MenuRealm/Buttons/Login" to="." method="_on_Login_pressed"]
