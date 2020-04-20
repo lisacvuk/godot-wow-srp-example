@@ -83,12 +83,16 @@ margin_bottom = 38.0
 size_flags_horizontal = 4
 text = "Cancel"
 
+[node name="Timer" type="Timer" parent="Panel/CenterContainer/LoggingIn"]
+wait_time = 5.0
+one_shot = true
+
 [node name="MenuRealm" type="VBoxContainer" parent="Panel/CenterContainer"]
 visible = false
 margin_left = 384.0
-margin_top = 279.0
+margin_top = 265.0
 margin_right = 640.0
-margin_bottom = 321.0
+margin_bottom = 334.0
 rect_min_size = Vector2( 256, 0 )
 
 [node name="Label" type="Label" parent="Panel/CenterContainer/MenuRealm"]
@@ -99,15 +103,15 @@ text = "Select a realm:"
 [node name="Realms" type="ItemList" parent="Panel/CenterContainer/MenuRealm"]
 margin_top = 18.0
 margin_right = 256.0
-margin_bottom = 27.0
+margin_bottom = 45.0
 allow_reselect = true
 auto_height = true
 same_column_width = true
 
 [node name="Buttons" type="HBoxContainer" parent="Panel/CenterContainer/MenuRealm"]
-margin_top = 31.0
+margin_top = 49.0
 margin_right = 256.0
-margin_bottom = 51.0
+margin_bottom = 69.0
 __meta__ = {
 "_edit_use_anchors_": false
 }

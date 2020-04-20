@@ -59,6 +59,17 @@ func attempt_reconnect():
 	$Panel/CenterContainer/MenuConnect.hide()
 	$Panel/CenterContainer/LoggingIn.show()
 	# Start the authentification
+	var status = socket.get_status()
+	var timeout = OS.get_unix_time()
+	while status != StreamPeerTCP.STATUS_CONNECTED:
+		if status == StreamPeerTCP.STATUS_ERROR or \
+				OS.get_unix_time() - timeout > 5:
+			set_error("Connection failed!")
+			_on_Cancel_pressed()
+			return
+
+		status = socket.get_status()
+
 	send_logon_chall()
 
 func process_proof_response():
@@ -118,8 +129,7 @@ func process_realmlist_response():
 		
 		var timezone = socket.get_u8()
 		
-		var unk1 = socket.get_u16()
-		var unk2 = socket.get_u8()
+		var unk = socket.get_u8()
 		
 		realms.append({name = realmname, address = address, port = port})
 		$Panel/CenterContainer/MenuRealm/Realms.add_item(realmname)
@@ -191,12 +201,13 @@ func send_logon_chall():
 	var data = StreamPeerBuffer.new()
 	# Command
 	data.put_u8(AuthCommand.AUTH_LOGON_CHALLENGE)
-	# Error - didn't check why is this 0x03, but it works so whatever
-	data.put_u8(0x03)
-	# Size - TODO: This shouldn't be hardcoded
-	data.put_u16(34)
+	# Error
+	data.put_u8(0x08)
+	# Size - meh it works
+	data.put_u16(30 + username.length())
 	# Gamename
-	data.put_data("WoW ".to_ascii())
+	data.put_data("WoW".to_ascii())
+	data.put_u8(0)
 	# Version
 	data.put_u8(4)
 	data.put_u8(3)
@@ -204,11 +215,13 @@ func send_logon_chall():
 	# Build
 	data.put_u16(15595)
 	# Platform
-	data.put_data("68x ".to_ascii())
+	data.put_data("68x".to_ascii())
+	data.put_u8(0)
 	# OS
-	data.put_data("niW ".to_ascii())
+	data.put_data("niW".to_ascii())
+	data.put_u8(0)
 	# Country
-	data.put_data("SUne".to_ascii())
+	data.put_data("BGne".to_ascii())
 	# Timezone bias
 	data.put_u8(60)
 	data.put_u8(0)
@@ -222,9 +235,10 @@ func send_logon_chall():
 	# Username length
 	data.put_u8(username.length())
 	# Username
-	data.put_data(username.to_ascii())
+	data.put_data(username.to_upper().to_ascii())
 	var array = data.get_data_array()
 	var size = array.size()
+	
 	socket.put_data(array)
 
 func set_error(message: String):
